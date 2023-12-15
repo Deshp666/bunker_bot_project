@@ -4,10 +4,8 @@ import json
 import time
 import base64
 import requests
-import os
 from BunkerSpecifications_3qqwwe20 import *
 from random import *
-
 token = '6507525660:AAE_OXfad52Zr03ocCQOcLY__Ss1LcuSUzw'
 bunker_bot = telebot.TeleBot(token)
 
@@ -744,5 +742,4 @@ def movement_card_processing(callback):
 
 
 if __name__ == '__main__':
-    print(os.getcwd())
     bunker_bot.infinity_polling()
