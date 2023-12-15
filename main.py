@@ -349,7 +349,7 @@ second_selected_player = None
 def say_hello(message):
     markup = types.InlineKeyboardMarkup()
     start_button = types.InlineKeyboardButton('Начать игру', callback_data='start_game')
-    rules_button = types.InlineKeyboardButton('Правила', callback_data='rules')
+    rules_button = types.InlineKeyboardButton('Правила', callback_data='rules', url="https://razvivashka.site/bunker/")
     markup.row(start_button)
     markup.add(rules_button)
     bunker_bot.send_message(message.chat.id, 'Привет! Я бот для ведения игры "Бункер". '
@@ -488,7 +488,7 @@ def informational_messages(callback):
         players_id = []
         say_hello(callback.message)
     elif callback.data == 'rules':
-        bunker_bot.send_message(callback.from_user.id, '*тут должны быть правила)*')
+        bunker_bot.send_message(callback.from_user.id)
     elif callback.data == 'start_game':
         bunker_bot.delete_message(callback.message.chat.id, callback.message.message_id)
         start_game_message(callback.message)
