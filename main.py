@@ -497,7 +497,7 @@ def game_messages(callback):
     one_round = 1
     final_round = 4
     end_game_round = 5
-    if len(players_id) > 4:
+    if len(players_id) > 0:
         if bunker_game is None:
             bunker_game = Game(players_id)
             bunker_game.create_game()
