@@ -206,15 +206,9 @@ class Game:
 
     def make_bunker(self) -> dict:
         temp_bunker_time = randint(1, 73)
-        # temp_extras_count = randint(1, 4)
         bunker_time = f'Запасы питания на {temp_bunker_time} {last_letter(temp_bunker_time, "месяцы")}'
         bunker_area = f'Площадь бункера: {randrange(30, 405, 5)} кв.м.'
         bunker_slots = len(self.player_list) // 2 + 1
-        # bunker_extra = []
-        # for extras in range(temp_extras_count):
-        #     temp_extra = choice(bunker_extras)
-        #     bunker_extra.append(temp_extra)
-        #     bunker_extras.remove(temp_extra)
 
         return {
             'Время': bunker_time,
@@ -224,15 +218,9 @@ class Game:
         }
 
     def make_disaster(self) -> dict:
-        # temp_extras_count = randint(1, 4)
         disaster = choice(disasters)
         population = f'Остаток населения {randint(10, 100)} %'
         destruction = f'Разрушение городов {randint(10, 100)} %'
-        # disaster_extra = []
-        # for extras in range(temp_extras_count):
-        #     temp_extra = choice(disaster_extras)
-        #     disaster_extra.append(temp_extra)
-        #     disaster_extras.remove(temp_extra)
 
         return {
             'Катастрофа': disaster,
@@ -509,7 +497,7 @@ def game_messages(callback):
     one_round = 1
     final_round = 4
     end_game_round = 5
-    if len(players_id) > 0:
+    if len(players_id) > 4:
         if bunker_game is None:
             bunker_game = Game(players_id)
             bunker_game.create_game()
@@ -524,18 +512,21 @@ def game_messages(callback):
                                     f"Раунд №{bunker_game.current_round}\n{rounds_message('first')}",
                                     reply_markup=round_buttons(bunker_game.round_count))
             bunker_game.round_count += one_round
+            bunker_game.current_round += one_round
         elif callback.data == 'next_round' and bunker_game.round_count < final_round:
             bunker_bot.delete_message(callback.message.chat.id, callback.message.message_id)
             bunker_bot.send_message(callback.message.chat.id,
                                     f"Раунд №{bunker_game.current_round}\n{rounds_message('kick')}",
                                     reply_markup=round_buttons(bunker_game.round_count))
             bunker_game.round_count += one_round
+            bunker_game.current_round += one_round
         elif bunker_game.round_count == final_round:
             bunker_bot.send_message(callback.message.chat.id,
                                     f"Раунд №{bunker_game.current_round}\nВ этом раунде решиться, "
                                     f"кто пройдет в бункер и выживет!\n{rounds_message('kick')}",
                                     reply_markup=round_buttons(bunker_game.round_count))
             bunker_game.round_count += one_round
+            bunker_game.current_round += one_round
             bunker_bot.delete_message(callback.message.chat.id, callback.message.message_id)
         elif callback.data == 'end_game':
             bunker_bot.delete_message(callback.message.chat.id, callback.message.message_id)
